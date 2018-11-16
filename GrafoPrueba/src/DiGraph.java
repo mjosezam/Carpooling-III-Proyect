@@ -24,13 +24,13 @@ import java.util.Collections;
  */
 public class DiGraph<T extends Comparable<T>>
 {
-    public enum State { UNVISITED, VISITED, COMPLETE };
+    public enum State { UNVISITED, VISITED, COMPLETE }
 
     private ArrayList<Vertex> vertices;
     private ArrayList<Edge> edges;
 
     /**
-     * Default Constructor
+     * Constructor
      */
     public DiGraph()
     {
@@ -39,7 +39,7 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * Creates Edge from two values T directed from -- to
+     * Crea un arco entre 2 valores con su costo
      * @param from Value for Vertex 1
      * @param to Value for Vertex 2
      * @param cost Cost or weight of edge
@@ -49,45 +49,44 @@ public class DiGraph<T extends Comparable<T>>
         Edge temp = findEdge(from, to);
         if (temp != null)
         {
-            // Don't allow multiple edges, update cost.
+            //No permite que se creen 2 arcos iguales entre los mismos nodos, en lugar actualiza el costo que tenia
             System.out.println("Edge " + from + "," + to + " already exists. Changing cost.");
             temp.cost = cost;
         }
         else
         {
-            // this will also create the vertices
+            // Agrega el arco a la lista de arcos
             Edge e = new Edge(from, to, cost);
             edges.add(e);
         }
     }
 
     /**
-     * find Vertex in Graph from value
-     * @param v value of type T
-     * @return Vertex, or <code>null</code> if not found.
+     * Encuentra el vertice en el grafo de acuerdo a su valor
+     * @param v valor
+     * @return Vertice, vertice que se busca o null si no existe
      */
     private Vertex findVertex(T v)
     {
-        for (Vertex each : vertices)
+        for (Vertex each : vertices)//recorre los vertices
         {
-            if (each.value.compareTo(v)==0)
+            if (each.value.compareTo(v)==0) // si el valor de un vertice es el que se busca lo retorna
                 return each;
         }
-        return null;
+        return null; //si no lo encuentra devuelve null
     }
 
     /**
-     * Find edge containg two vertices
-     * in direction v1 -> v2
-     * @param v1 Vertex 'from'
-     * @param v2 Vertex 'to'
-     * @return Edge, or <code>null</code> if not found.
+     * Busca un arco que una a dos vertices en especifico
+     * @param v1 Vertice de origen
+     * @param v2 Vertice al que se quiere llegar
+     * @return Edge, arco que se busca o null si no existe
      */
     private Edge findEdge(Vertex v1, Vertex v2)
     {
         for (Edge each : edges)
         {
-            if (each.from.equals(v1) && each.to.equals(v2))
+            if (each.from.equals(v1) && each.to.equals(v2)) //Si el arco tiene el punto de origen y el destino ingresados lo retorna
             {
                 return each;
             }
@@ -96,10 +95,10 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * Find edge from two values
-     * @param from from value of type T
-     * @param to to value of type T
-     * @return Edge, or <code>null</code> if not found.
+     * Encuentra un arco entre 2 valores
+     * @param from Valor del origen
+     * @param to Valor del destino
+     * @return Edge, arco que coincida con los valores o null si no existe
      */
     private Edge findEdge(T from, T to)
     {
@@ -114,7 +113,7 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * Sets all states to UNVISITED
+     * Pone los estados de todos los vertices como UNVISITED
      */
     private void clearStates()
     {
@@ -125,8 +124,8 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * Test if DFS or BFS returned a connected graph
-     * @return true if connected, false if not.
+     * Verifica si Breath First o Depth First devolvieron un grafo conectado
+     * @return true si esta conectado, false si no esta conectado
      */
     public boolean isConnected()
     {
@@ -139,61 +138,68 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * Performs a recursive Depth First Search on the
-     * 'root' node (the first vertex created)
-     * @return true if connected, false if empty or not connected
+     * Performs a recursive Depth First Search on the Realiza una busqueda Depth First a partir del primer vertice creado
+     * @return true si esta conectado, false si no esta conectado
      */
     public boolean DepthFirstSearch()
     {
-        if (vertices.isEmpty()) return false;
+        if (vertices.isEmpty()){
+            return false;
+    }
 
         clearStates();
-        // get first node
-        Vertex root = vertices.get(0);
-        if (root==null) return false;
+        //asigna el primer nodo creado como raiz
 
-        // call recursive function
+        Vertex root = vertices.get(0);
+        if (root==null){
+            return false;
+        }
+
+        //llama a la funcion de forma recursiva para seguir buscando en el grafo
         DepthFirstSearch(root);
         return isConnected();
     }
 
     /**
-     * Helper for Depth first search
-     * @param v vertex
+     * Aplica Depth First Search al nodo indicado
+     * @param v vertice el cual se le va a aplicar la busqueda
      */
     private void DepthFirstSearch(Vertex v)
     {
-        v.state = State.VISITED;
+        v.state = State.VISITED; //marca el nodo como visitado
 
-        // loop through neighbors
+        // busca en los hijos de forma recursiva
         for (Vertex each : v.outgoing)
         {
-            if (each.state ==State.UNVISITED)
+            if (each.state == State.UNVISITED)
             {
                 DepthFirstSearch(each);
             }
         }
-        v.state = State.COMPLETE;
+        v.state = State.COMPLETE; // Una vez que busco en los hijos pone el vertice como COMPLETE
     }
 
     /**
-     * Performs a Breadth-First Search
-     * starting at 'root' node (First created vertex)
-     * @return true is connected, false is not or if empty
+     * Realiza una busqueda Breadth First empezando en el primer vertice creado
+     * @return true si esta conectado, false si no esta conectado
      */
     public boolean BreadthFirstSearch()
     {
-        if (vertices.isEmpty()) return false;
-        clearStates();
+        if (vertices.isEmpty()){
+            return false;
+        }
+        clearStates(); // pone los estados de los vertices en UNVISITED
 
-        Vertex root = vertices.get(0);
-        if (root==null) return false;
+        Vertex root = vertices.get(0); // pone el primer nodo creado como raiz para empezar la busqueda
+        if (root==null) {
+            return false;
+        }
 
         Queue<Vertex> queue = new LinkedList<>();
         queue.add(root);
         root.state = State.COMPLETE;
 
-        while (!queue.isEmpty())
+        while (!queue.isEmpty())//revisa los niveles del grafo mediante el uso de una pila
         {
             root = queue.peek();
             for (Vertex each : root.outgoing)
@@ -211,17 +217,22 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * Perfoms a Breadth-First Search on a given starting vertex
-     * @param v1 Value of type T for starting vertex
-     * @return true if connected, false if not or if empty
+     * Realiza la busqueda Breadth First en el vertice indicado
+     * @param v1 Valor del nodo inicial
+     * @return true si esta conectado, false si no esta conectado o si esta vacio
      */
     public boolean BreadthFirstSearch(T v1)
     {
-        if (vertices.isEmpty()) return false;
-        clearStates();
+        if (vertices.isEmpty()) {
+            return false;
+        }
+        clearStates();// pone los estados de los vertices en UNVISITED
 
-        Vertex root = findVertex(v1);
-        if (root==null) return false;
+        Vertex root = findVertex(v1); //Pone la raiz como el nodo buscado
+
+        if (root == null) {
+            return false;
+        }
 
         Queue<Vertex> queue = new LinkedList<>();
         queue.add(root);
@@ -230,7 +241,7 @@ public class DiGraph<T extends Comparable<T>>
         while (!queue.isEmpty())
         {
             root = queue.peek();
-            for (Vertex each : root.outgoing)
+            for (Vertex each : root.outgoing)//revisa cada vertice que sale de la raiz y lo agrega a la cola
             {
 
                 if (each.state==State.UNVISITED)
@@ -245,46 +256,51 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * Creates path information on the graph using the Dijkstra Algorithm,
-     * Puts the information into the Vertices, based on given starting vertex.
-     * @param v1 Value of type T for starting vertex
-     * @return true if successfull, false if empty or not found.
+     * Crea el camino del grafo utilizando Dijkstra
+     * Asigna la informacion en los veritices a partir del inicial
+     * @param v1 Valor del vertice inicial
+     * @return true si tiene exito, false si esta vacio o no se encuentra
      */
     private boolean Dijkstra(T v1)
     {
-        if (vertices.isEmpty()) return false;
+        if (vertices.isEmpty()){
+            return false;
+        }
 
-        // reset all vertices minDistance and previous
+        // Reinicia los caminos de los vertices
         resetDistances();
 
-        // make sure it is valid
+        // Verifica que el vertice no sea nulo
         Vertex source = findVertex(v1);
-        if (source==null) return false;
+        if (source==null){
+            return false;
+        }
 
-        // set to 0 and add to heap
+        // Pone la distancia de la raiz en 0 y lo agrega a la cola
         source.minDistance = 0;
         PriorityQueue<Vertex> pq = new PriorityQueue<>();
         pq.add(source);
 
         while (!pq.isEmpty())
         {
-            //pull off top of queue
+            //Asigna el elemento superior de la cola y lo elimina de esta
             Vertex u = pq.poll();
 
-            // loop through adjacent vertices
-            for (Vertex v : u.outgoing)
+
+            for (Vertex v : u.outgoing)// Revisa los nodos adyacentes
             {
-                // get edge
+                // Encuentra los arcos entre los vertices y deja el que tiene la menor distancia
                 Edge e = findEdge(u, v);
-                if (e==null) return false;
-                // add cost to current
+                if (e == null) {
+                    return false;
+                }
+
                 int totalDistance = u.minDistance + e.cost;
                 if (totalDistance < v.minDistance)
                 {
-                    // new cost is smaller, set it and add to queue
+                    // El nuevo costo mas pequeno lo asigna y agrega a la cola
                     pq.remove(v);
                     v.minDistance = totalDistance;
-                    // link vertex
                     v.previous = u;
                     pq.add(v);
                 }
@@ -294,35 +310,34 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * Goes through the result tree created by the Dijkstra method
-     * and steps backward
-     * @param target Vertex end of path
-     * @return string List of vertices and costs
+     * Revisa el arbol creado con Dijkstra
+     * @param target Vertice al que se quiere llegar
+     * @return string Lista de los vertices con sus costos
      */
     private List<String> getShortestPath(Vertex target)
     {
         List<String> path = new ArrayList<String>();
 
-        // check for no path found
+        // Revisa si no existen caminos
         if (target.minDistance==Integer.MAX_VALUE)
         {
-            path.add("No path found");
+            path.add("Camino no encontrado");
             return path;
         }
 
-        // loop through the vertices from end target
+        // Revisa los vertices del destino
         for (Vertex v = target; v !=null; v = v.previous)
         {
             path.add(v.value + " : cost : " + v.minDistance);
         }
 
-        // flip the list
+        // invierte la lista
         Collections.reverse(path);
         return path;
     }
 
     /**
-     * for Dijkstra, resets all the path tree fields
+     * Reinicia todos los caminos del grafo recorrido con Dijkstra
      */
     private void resetDistances()
     {
@@ -335,24 +350,25 @@ public class DiGraph<T extends Comparable<T>>
 
     /**
      * PUBLIC WRAPPER FOR PRIVATE FUNCTIONS
-     * Calls the Dijkstra method to build the path tree for the given
-     * starting vertex, then calls getShortestPath method to return
-     * a list containg all the steps in the shortest path to
-     * the destination vertex.
-     * @param from value of type T for Vertex 'from'
-     * @param to value of type T for vertex 'to'
-     * @return ArrayList of type String of the steps in the shortest path.
+     * Llama al metodo Dijkstra para que construya el arbol de caminos para los vertices
+     * indicados, luego llama al metodo getShortestPath para que devuelva la lista con
+     * la ruta que contiene el camino mas corto al destino
+     * @param from Valor del nodo inicial
+     * @param to Valor del nodo al que se quiere llegar
+     * @return ArrayList de strings con la ruta a seguir
      */
     public List<String> getPath(T from, T to)
     {
         boolean test = Dijkstra(from);
-        if (test==false) return null;
+        if (test==false) {
+            return null;
+        }
         List<String> path = getShortestPath(findVertex(to));
         return path;
     }
 
     /**
-     * @return string of vertices
+     * @return String con los vertices
      */
     @Override
     public String toString()
@@ -366,8 +382,8 @@ public class DiGraph<T extends Comparable<T>>
     }
 
     /**
-     * list all the edges into a string
-     * @return string of edge data
+     * Lista todos los arcos en un String
+     * @return String con los datos de los arcos
      */
     public String edgesToString()
     {
@@ -379,22 +395,24 @@ public class DiGraph<T extends Comparable<T>>
         return retval;
     }
 
-
+    /**
+     * Clase Vertex
+     */
     class Vertex implements Comparable<Vertex>
     {
         T value;
 
-        // variables for Dijkstra Tree
+        // variables para el arbol que crea Dijkstra
         Vertex previous = null;
         int minDistance = Integer.MAX_VALUE;
 
         List<Vertex> incoming;
         List<Vertex> outgoing;
-        State state;
+        State state; //estado del vertice
 
         /**
-         * Creates new Vertex with value T
-         * @param value T
+         * Constructor de un vertice con el valor ingresado
+         * @param value valor del vertice
          */
         public Vertex(T value)
         {
@@ -405,7 +423,7 @@ public class DiGraph<T extends Comparable<T>>
         }
 
         /**
-         * @param other Vertex to compare to
+         * @param other Vertice con el que se va a comparar
          */
         @Override
         public int compareTo(Vertex other)
@@ -414,21 +432,26 @@ public class DiGraph<T extends Comparable<T>>
         }
 
         /**
-         * Add Vertex to adjacent incoming list
-         * @param vert Vertex of incoming adjacent
+         * Agrega el vertice a la lista incoming
+         * @param vert vertice que se agrega
          */
         public void addIncoming(Vertex vert)
         {
             incoming.add(vert);
         }
+
+        /**
+         * Agrega el vertice a la lista outgoing
+         * @param vert vertice que se agrega
+         */
         public void addOutgoing(Vertex vert)
         {
             outgoing.add(vert);
         }
 
         /**
-         * Get string of Vertex with all it's ingoing and outgoing adjacencies
-         * @ return string
+         * String de un vertice con sus vertices incoming y outgoing
+         * @return string con los datos del vertice y los que van hacia este y los que salen
          */
         @Override
         public String toString()
@@ -443,6 +466,9 @@ public class DiGraph<T extends Comparable<T>>
         }
     }
 
+    /**
+     * clase Edge
+     */
     class Edge
     {
         Vertex from;
@@ -450,9 +476,9 @@ public class DiGraph<T extends Comparable<T>>
         int cost;
 
         /**
-         * @param v1 value of type T for 'from' vertex
-         * @param v2 value of type T for 'to' vertex
-         * @param cost integer value for cost/weight of edge
+         * @param v1 vertice del que sale el arco
+         * @param v2 vertice al que llega el arco
+         * @param cost valor del arco
          */
         public Edge(T v1, T v2, int cost)
         {
@@ -475,7 +501,7 @@ public class DiGraph<T extends Comparable<T>>
         }
 
         /**
-         * @return Edge as string
+         * @return devuelve como string el arco
          */
         @Override
         public String toString()
