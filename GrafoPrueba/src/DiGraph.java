@@ -480,6 +480,7 @@ public class DiGraph<T extends Comparable<T>>
          * @param v2 vertice al que llega el arco
          * @param cost valor del arco
          */
+
         public Edge(T v1, T v2, int cost)
         {
             from = findVertex(v1);
