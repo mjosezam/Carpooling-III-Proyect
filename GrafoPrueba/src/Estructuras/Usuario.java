@@ -3,12 +3,21 @@ package Estructuras;
 public class Usuario {
     private String nombre,correo,contrasena,lugarDondeVive,carnet;
     private ListaSimple listaAmigos;
+    private int calificacion = 5;
 
     public Usuario(String nombre, String correo, String contrasena, String lugarDondeVive) {
         this.nombre = nombre;
         this.correo = correo;
         this.contrasena = contrasena;
         this.lugarDondeVive = lugarDondeVive;
+    }
+
+    public int getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(int calificacion) {
+        this.calificacion = calificacion;
     }
 
     public String getCarnet() {

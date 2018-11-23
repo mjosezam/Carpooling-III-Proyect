@@ -3,11 +3,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-public class DiGraphTest {
+public class Graph.DiGraphTest {
     @Test
 
     public void test (){
-        DiGraph grafo = new DiGraph();
+        Graph.DiGraph grafo = new Graph.DiGraph();
 
         grafo.add("San Ramon", "Palmares", 6);
         grafo.add("San Ramon", "Sarchi", 8);
