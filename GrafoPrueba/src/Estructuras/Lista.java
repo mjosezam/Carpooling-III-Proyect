@@ -2,12 +2,12 @@ package Estructuras;
 
 public interface Lista<T> {
 
-    void add(T enemy);
+	void add(T valor);
 
-    void delete(T enemy);
+	void delete(T valor);
 
-    Nodo<T> getPrimero();
+	Nodo<T> getPrimero();
 
-    Nodo<T> getUltimo();
+	Nodo<T> getUltimo();
 
 }

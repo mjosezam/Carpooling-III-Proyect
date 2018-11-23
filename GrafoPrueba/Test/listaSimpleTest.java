@@ -1,7 +1,4 @@
-import Estructuras.ListaSimple;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class listaSimpleTest {
     @Test
