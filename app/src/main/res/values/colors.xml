@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="uno">#5f605e</color>
+    <color name="zero">#4e5340</color>
+    <color name="dos">#697268</color>
+    <color name="thres">#aac0aa</color>
+    <color name="cuatro">#e2e8dd</color>
+    <color name="quinto">#e9806e</color>
+</resources>
