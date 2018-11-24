@@ -12,11 +12,24 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -40,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         button = (Button) findViewById(R.id.b_signup);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,10 +74,45 @@ public class MainActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList()
-        );
+        loginButton.setReadPermissions(Arrays.asList("public_profile"));
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                mDialog = new ProgressDialog(MainActivity.this);
+                mDialog.setMessage("Retrieving data...");
+                mDialog.show();
+                openActivity2();
+
+                String accesstoken = loginResult.getAccessToken().getToken();
+
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        mDialog.dismiss();
+                        Log.d("response", response.toString());
+                    }
+                });
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
         printKeyHash();
     }
+
+    private void openActivity2() {
+        Intent intent = new Intent(this, Activity2.class);
+        startActivity(intent);
+    }
+
 
     private void printKeyHash() {
         try{
