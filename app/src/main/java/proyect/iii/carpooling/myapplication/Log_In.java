@@ -8,6 +8,11 @@ import android.widget.*;
 
 public class Log_In extends AppCompatActivity {
     Button button;
+
+    /**
+     * Abre la actividad de forma grafica
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +27,9 @@ public class Log_In extends AppCompatActivity {
         });
     }
 
+    /**
+     * Abre la actividad principal
+     */
     public void openHighWay(){
         Intent intent = new Intent(this, Activity2.class);
         startActivity(intent);

@@ -1,6 +1,7 @@
 package proyect.iii.carpooling.myapplication;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,11 +9,6 @@ import android.widget.*;
 
 public class Activity2 extends AppCompatActivity {
     Button button;
-        private int _xDelta;
-        private int _yDelta;
-        private int _rightMargin;
-        private int _bottomMargin;
-        private ImageView _floatingView;
 
         @SuppressLint("WrongViewCast")
         @Override
@@ -24,8 +20,15 @@ public class Activity2 extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    button.setText("Alajuela");
+                    System.out.println("1");
+                    open();
+                    System.out.println("2");
                 }
             });
         }
+
+    public void open(){
+        Intent intent = new Intent(this, Rate.class);
+        startActivity(intent);
+    }
     }
