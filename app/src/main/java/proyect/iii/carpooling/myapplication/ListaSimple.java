@@ -5,6 +5,7 @@ public class ListaSimple<T> implements Lista<T> {
     public NodoSimple<T> primero;
     public int size;
 
+
     public void add(T valor) {
         NodoSimple<T> nuevo = new NodoSimple<T>(valor);
         if (empty() == true) {
@@ -39,6 +40,25 @@ public class ListaSimple<T> implements Lista<T> {
             }
         }
         this.size--;
+    }
+
+    public  Nodo<T> getNodo(int index){
+        Nodo<T> current=primero;
+        if (index<size){
+            for (int j=0; j<size; j++){
+                if (index==j){
+                    return current;
+                }
+                else{
+                    current=current.getSiguiente();
+                }
+            }
+        }
+        return null;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     @Override

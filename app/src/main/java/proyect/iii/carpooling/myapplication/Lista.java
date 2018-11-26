@@ -10,4 +10,7 @@ public interface Lista<T> {
 
     Nodo<T> getUltimo();
 
+    int getSize();
+
+    Nodo<T> getNodo(int index);
 }

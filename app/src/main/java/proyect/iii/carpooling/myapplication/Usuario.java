@@ -1,17 +1,18 @@
 package proyect.iii.carpooling.myapplication;
 
 public class Usuario {
-    private String nombre,correo,contrasena,lugarDondeVive,carnet;
+    private String nombre,correo,contrasena,lugarDondeVive,carnet, rol;
     private ListaSimple listaAmigos;
     private int calificacion = 5;
 
     public Usuario(){}
 
-    public Usuario(String nombre, String correo, String contrasena, String lugarDondeVive) {
+    public Usuario(String nombre, String correo, String contrasena, String lugarDondeVive, String rol) {
         this.nombre = nombre;
         this.correo = correo;
         this.contrasena = contrasena;
         this.lugarDondeVive = lugarDondeVive;
+        this.rol=rol;
     }
 
     public int getCalificacion() {

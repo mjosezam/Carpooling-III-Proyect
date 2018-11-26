@@ -1,5 +1,6 @@
 package proyect.iii.carpooling.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,5 +27,10 @@ public class Rate extends AppCompatActivity {
                 txtrate.setText("Rating: "+rating);
             }
         });
+    }
+
+    public void openActivity2(){
+        Intent intent = new Intent(this, Activity2.class);
+        startActivity(intent);
     }
 }

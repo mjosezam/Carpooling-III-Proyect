@@ -18,6 +18,8 @@ public class Log_In extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log__in);
 
+
+
         button = (Button) findViewById(R.id.b_login2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
