@@ -3,6 +3,8 @@ package Graph;/* Generic Directed Weighted Graph with Dijkstra's Shortest Path A
  * for /r/javaexamples
  */
 
+import Estructuras.ListaSimple;
+
 import java.util.*;
 
 @SuppressWarnings("unchecked")
@@ -50,6 +52,21 @@ public class DiGraph<T extends Comparable<T>>
             grafo.add(desde,hacia,random.nextInt(10)+1);
         }
         return grafo;
+    }
+    public ListaSimple agregar (DiGraph graph){
+        List<String> path = graph.getPath("el_tejar", "TEC");
+        ListaSimple lista = new ListaSimple();
+        String valor = null;
+        for (String each : path) {
+            String palabra = each;
+            String[] parts = palabra.split(",");
+            String part1 = parts[0];
+            String part2 = parts[1];
+            valor = part2;
+            lista.add(part1);
+        }
+        lista.add(valor);
+        return lista;
     }
 
     /**
